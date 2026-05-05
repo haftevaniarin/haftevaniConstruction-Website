@@ -23,4 +23,18 @@ document.addEventListener('DOMContentLoaded',function(){
       }
     })
   }
+
+  const galleryArrows = document.querySelectorAll('.gallery-arrow[data-gallery-target]');
+  galleryArrows.forEach(function(arrow){
+    arrow.addEventListener('click',function(){
+      const galleryId = arrow.getAttribute('data-gallery-target');
+      const direction = arrow.getAttribute('data-direction') === 'left' ? -1 : 1;
+      const gallery = document.getElementById(galleryId);
+      if(!gallery){ return; }
+
+      const firstProject = gallery.querySelector('.project');
+      const step = firstProject ? firstProject.getBoundingClientRect().width + 12 : gallery.clientWidth * 0.8;
+      gallery.scrollBy({ left: step * direction, behavior: 'smooth' });
+    });
+  });
 })

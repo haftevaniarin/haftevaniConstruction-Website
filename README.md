@@ -26,6 +26,6 @@ Open `index.html` in a browser. For local dev with live reload, use a static ser
 
 Placeholders:
 + Company: Haftevani Construction Inc
-+ Phone: (747) 273-6542
++ Phone: (747) 273-6543
 + Email: haftevani.construction@gmail.com
 # haftevaniConstruction-Website
