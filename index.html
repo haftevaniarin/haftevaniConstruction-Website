@@ -23,7 +23,7 @@
         <a href="/about.html">About</a>
         <a href="/services.html">Services</a>
         <a href="/projects.html">Projects</a>
-        <a href="/cities.html">Cities</a>
+        
         <a href="/contact.html" class="cta">Get Free Estimate</a>
         <div class="phone">(747) 273-6543</div>
       </nav>
@@ -136,16 +136,21 @@
           <p><strong>Phone:</strong> (747) 273-6543<br><strong>Email:</strong> haftevani.construction@gmail.com</p>
         </div>
         <aside>
-          <form id="contact-form" class="contact-form" action="/contact.html" method="post">
+          <p id="form-success-message" class="small" style="display:none;color:#0b6b2a;background:#e8f7ed;border:1px solid #c4e9d0;padding:10px 12px;border-radius:8px;margin:0 0 12px">Thank you. Your message was sent successfully.</p>
+          <form id="contact-form" class="contact-form" action="https://formsubmit.co/haftevani.construction@gmail.com" method="post">
+            <input type="hidden" name="_subject" value="New Website Lead - Haftevani Construction Inc">
+            <input type="hidden" name="_next" value="">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="text" name="_honey" style="display:none">
             <div class="form-row">
-              <input name="name" placeholder="Full name" />
-              <input name="email" placeholder="Email" />
+              <input name="name" placeholder="Full name" required />
+              <input name="email" type="email" placeholder="Email" required />
             </div>
             <div style="margin-top:12px">
               <input name="phone" placeholder="Phone (optional)" />
             </div>
             <div style="margin-top:12px">
-              <textarea name="message" rows="4" placeholder="Brief project details"></textarea>
+              <textarea name="message" rows="4" placeholder="Brief project details" required></textarea>
             </div>
             <div style="margin-top:12px;display:flex;justify-content:flex-end">
               <button class="btn-primary" type="submit">Send Message</button>

@@ -16,7 +16,6 @@ Files:
 - `additions.html` — Home Additions
 - `roofing.html` — Roofing / Exterior Renovation
 - `projects.html` — Projects / Gallery
-- `cities.html` — Cities We Serve
 - `contact.html` — Contact page
 - `assets/css/styles.css` — Global stylesheet
 - `assets/js/site.js` — Small JS for mobile nav and form validation
