@@ -13,8 +13,10 @@ document.addEventListener('DOMContentLoaded',function(){
   const contactForms = document.querySelectorAll('form.contact-form');
   contactForms.forEach(function(contactForm){
     const nextInput = contactForm.querySelector('input[name=_next]');
-    if(nextInput){
-      nextInput.value = window.location.origin + '/contact.html?sent=1';
+    if(nextInput && /^https?:$/.test(window.location.protocol)){
+      const successUrl = new URL(window.location.href);
+      successUrl.searchParams.set('sent', '1');
+      nextInput.value = successUrl.toString();
     }
 
     contactForm.addEventListener('submit',function(e){
