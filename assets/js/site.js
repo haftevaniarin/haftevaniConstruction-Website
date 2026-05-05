@@ -10,9 +10,13 @@ document.addEventListener('DOMContentLoaded',function(){
     })
   }
 
-  // Simple contact form placeholder validation
-  const contactForm = document.querySelector('#contact-form');
-  if(contactForm){
+  const contactForms = document.querySelectorAll('form.contact-form');
+  contactForms.forEach(function(contactForm){
+    const nextInput = contactForm.querySelector('input[name=_next]');
+    if(nextInput){
+      nextInput.value = window.location.origin + '/contact.html?sent=1';
+    }
+
     contactForm.addEventListener('submit',function(e){
       const name = contactForm.querySelector('[name=name]').value.trim();
       const email = contactForm.querySelector('[name=email]').value.trim();
@@ -21,7 +25,15 @@ document.addEventListener('DOMContentLoaded',function(){
         e.preventDefault();
         alert('Please complete name, email and message before sending.');
       }
-    })
+    });
+  });
+
+  const params = new URLSearchParams(window.location.search);
+  if(params.get('sent') === '1'){
+    const successMessage = document.getElementById('form-success-message');
+    if(successMessage){
+      successMessage.style.display = 'block';
+    }
   }
 
   const galleryArrows = document.querySelectorAll('.gallery-arrow[data-gallery-target]');
