@@ -38,6 +38,59 @@ document.addEventListener('DOMContentLoaded',function(){
     }
   }
 
+  const rotatingHeroes = document.querySelectorAll('.hero[data-hero-images]');
+  rotatingHeroes.forEach(function(hero){
+    const rawImages = hero.getAttribute('data-hero-images') || '';
+    const images = rawImages.split(',').map(function(path){ return path.trim(); }).filter(Boolean);
+    if(images.length < 2){ return; }
+
+    const intervalMs = Number(hero.getAttribute('data-hero-interval')) || 3000;
+    let currentIndex = 0;
+    hero.classList.add('has-slider');
+
+    const slides = document.createElement('div');
+    slides.className = 'hero-slides';
+    slides.setAttribute('aria-hidden', 'true');
+
+    images.forEach(function(src){
+      const slide = document.createElement('div');
+      slide.className = 'hero-slide';
+      slide.style.backgroundImage = "url('" + src + "')";
+      slides.appendChild(slide);
+    });
+
+    const firstClone = document.createElement('div');
+    firstClone.className = 'hero-slide';
+    firstClone.style.backgroundImage = "url('" + images[0] + "')";
+    slides.appendChild(firstClone);
+
+    hero.insertBefore(slides, hero.firstChild);
+
+    images.forEach(function(src){
+      const preload = new Image();
+      preload.src = src;
+    });
+
+    const setSlidePosition = function(index, animate){
+      slides.style.transition = animate ? 'transform 750ms ease' : 'none';
+      slides.style.transform = 'translateX(-' + (index * 100) + '%)';
+    };
+
+    setSlidePosition(0, false);
+
+    slides.addEventListener('transitionend', function(){
+      if(currentIndex === images.length){
+        currentIndex = 0;
+        setSlidePosition(currentIndex, false);
+      }
+    });
+
+    setInterval(function(){
+      currentIndex += 1;
+      setSlidePosition(currentIndex, true);
+    }, intervalMs);
+  });
+
   const galleryArrows = document.querySelectorAll('.gallery-arrow[data-gallery-target]');
   galleryArrows.forEach(function(arrow){
     arrow.addEventListener('click',function(){
@@ -51,4 +104,62 @@ document.addEventListener('DOMContentLoaded',function(){
       gallery.scrollBy({ left: step * direction, behavior: 'smooth' });
     });
   });
+
+  const projectImages = document.querySelectorAll('.project img');
+  if(projectImages.length){
+    const lightbox = document.createElement('div');
+    lightbox.className = 'lightbox';
+    lightbox.setAttribute('aria-hidden', 'true');
+
+    const closeButton = document.createElement('button');
+    closeButton.type = 'button';
+    closeButton.className = 'lightbox-close';
+    closeButton.setAttribute('aria-label', 'Close image');
+    closeButton.textContent = '×';
+
+    const lightboxImage = document.createElement('img');
+    lightboxImage.alt = '';
+    lightboxImage.loading = 'eager';
+    lightboxImage.decoding = 'sync';
+
+    lightbox.appendChild(closeButton);
+    lightbox.appendChild(lightboxImage);
+    document.body.appendChild(lightbox);
+
+    const closeLightbox = function(){
+      lightbox.classList.remove('is-open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      lightboxImage.removeAttribute('src');
+    };
+
+    const openLightbox = function(img){
+      const fullSrc = img.getAttribute('src');
+      if(!fullSrc){ return; }
+      lightboxImage.src = fullSrc;
+      lightboxImage.alt = img.alt || 'Project image';
+      lightbox.classList.add('is-open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    };
+
+    closeButton.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', function(e){
+      if(e.target === lightbox){
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && lightbox.classList.contains('is-open')){
+        closeLightbox();
+      }
+    });
+
+    projectImages.forEach(function(img){
+      img.addEventListener('click', function(){
+        openLightbox(img);
+      });
+    });
+  }
 })
